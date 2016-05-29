@@ -32,13 +32,6 @@ class GraphicPanel extends JPanel
 		g.fillArc(first.getX()-first.getRadio()-1, 
 				first.getY()-first.getRadio()-1,
 				first.getRadio()*2, first.getRadio()*2, 0, 360);;
-		Robot robot = null;
-		try {
-			robot = new Robot();
-		} catch (AWTException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		int radio = first.getRadio()/6;
 		while(cirList.size()<n)
 		{
