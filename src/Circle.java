@@ -1,9 +1,12 @@
 import java.math.*;
-import java.util.ArrayList;;;
+import java.util.ArrayList;
 public class Circle 
 {
 	static private int stepLength;
-	private int radio;
+	static private int height;
+	static private int width;
+
+ 	private int radio;
 	private int x;
 	private int y;
 	Circle(int x,int y,int radio)
@@ -29,8 +32,28 @@ public class Circle
 		return re;
 	}
 	
+	public static Circle getBlockCir()
+	{
+		Circle c = new Circle((int)(Math.random()*width) , (int)(Math.random()*height) , 0 );
+		return c;
+	}
+	
+	public static void insertNRandomBlock(ArrayList <Circle> cirList,int n)
+	{
+		for (int count = 0 ;count <n;count++)
+			cirList.add(getBlockCir());
+	}
+	
 	public static void setStepLength(int stepLength) {
 		Circle.stepLength = stepLength;
+	}
+	
+	public static void setHeight(int height) {
+		Circle.height = height;
+	}
+
+	public static void setWidth(int width) {
+		Circle.width = width;
 	}
 	
 	public int getRadio() {
