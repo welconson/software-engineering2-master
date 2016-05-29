@@ -1,5 +1,10 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
+
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -30,22 +35,24 @@ class GraphicPanel extends JPanel
 	}
 	protected void paintComponent(Graphics g)
 	{
-		@SuppressWarnings("resource")
+		BufferedImage image= (BufferedImage) this.createImage(WIDTH, HEIGHT);
+		Graphics imageGra = image.getGraphics();
 		Scanner sc = new Scanner(System.in);
 		int n = sc.nextInt();
 		int stepLength =sc.nextInt(); 
 		int blockNum = sc.nextInt();
-		super.paintComponent(g);
+		super.paintComponent(imageGra);
 		Circle.setStepLength(stepLength);
 		Circle.setHeight(HEIGHT);
 		Circle.setWidth(WIDTH);
 		ArrayList <Circle> cirList = new ArrayList <Circle>();
 		Circle.insertNRandomBlock(cirList, blockNum);
-		g.setColor(Color.BLUE);
+		imageGra.setColor(Color.BLUE);
 		for(int count = 0;count <blockNum;count++)
-			blockPainter(g,cirList.get(count));
-		g.setColor(Color.RED);
+			blockPainter(imageGra,cirList.get(count));
+		imageGra.setColor(Color.RED);
 		int radio = WIDTH/2;
+		long count=0;
 		while(cirList.size()<n+blockNum)
 		{
 			for(int nextX = 1;nextX<WIDTH;nextX+=stepLength)
@@ -54,19 +61,27 @@ class GraphicPanel extends JPanel
 					continue;
 				for(int nextY = 1;nextY<HEIGHT;nextY+=stepLength)
 				{
+					if(cirList.size()>=n+blockNum)
+						break;
 					if((nextY-radio)<0||(nextY+radio)>HEIGHT)
 						continue;
+					int pointColor=image.getRGB(nextX, nextY);
+					if(Color.RED.getRGB()==pointColor)
+						{count++;
+						continue;}
 					Circle c = new Circle(nextX,nextY,radio);
 					if (!c.AllCirCheck(cirList))
 						continue;
 					cirList.add(c);
-					circlePainter(g,c);
+					circlePainter(imageGra,c);
 				}
 			}
 			radio -=stepLength;
 			if (radio == 0)
 				break;
 		}
+		g.drawImage(image, 0, 0, WIDTH, HEIGHT, 0, 0, WIDTH, HEIGHT, this);
+		System.out.println(count);
 	}
 	public void circlePainter(Graphics g ,Circle c)
 	{
@@ -76,8 +91,8 @@ class GraphicPanel extends JPanel
 	}
 	public void blockPainter (Graphics g ,Circle c)
 	{
-		g.fillArc(c.getX()-3, 
-				c.getY()-3,
-				6, 6, 0, 360);
+		g.fillArc(c.getX()-5, 
+				c.getY()-5,
+				10, 10, 0, 360);
 	}
 }
