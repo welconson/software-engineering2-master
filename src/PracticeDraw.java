@@ -50,8 +50,6 @@ class GraphicPanel extends JPanel
 				{
 					if((nextY-radio)<0||(nextY+radio)>600)
 						continue;
-					//if (robot.getPixelColor(nextX, nextY).getAlpha()==Color.RED.getAlpha())
-						//continue;
 					Circle c = new Circle(nextX,nextY,radio);
 					if (!c.AllCirCheck(cirList))
 						continue;
